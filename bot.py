@@ -1,8 +1,14 @@
 import telebot
 import os
+import sys
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")  # читаем токен из переменной окружения
-bot = telebot.TeleBot(BOT_TOKEN)    # передаём токен
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+
+if not BOT_TOKEN:
+    print("❌ BOT_TOKEN не задан!")
+    sys.exit(1)  # аварийный выход, если токена нет
+
+bot = telebot.TeleBot(BOT_TOKEN)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
