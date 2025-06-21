@@ -44,12 +44,10 @@ def handle_text(message):
 
     bot.send_message(message.chat.id, "❌ Монета не найдена. Попробуй написать её точнее или в виде сокращения (например: BTC, ETH, DOGE)")
 
-# 📌 Обработка нажатия кнопки info_SYMBOL
 @bot.callback_query_handler(func=lambda call: call.data.startswith("info_"))
 def handle_info(call):
     symbol = call.data.split("_")[1]
     try:
-        # Получаем информацию по отношению к USDT
         url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest"
         headers = {"X-CMC_PRO_API_KEY": CMC_API_KEY}
         params = {"symbol": symbol, "convert": "USDT"}
@@ -57,9 +55,9 @@ def handle_info(call):
         r = requests.get(url, headers=headers, params=params)
         data = r.json()["data"][symbol]["quote"]["USDT"]
 
-        price = round(data["price"], 2)
-        cap = round(data["market_cap"] / 1_000_000_000, 2)
-        change = round(data["percent_change_24h"], 2)
+        price = data["price"]
+        cap = data["market_cap"] / 1_000_000_000  # в миллиардах
+        change = data["percent_change_24h"]
 
         fear_greed = ""
         if symbol == "BTC":
@@ -69,9 +67,9 @@ def handle_info(call):
 
         msg = (
             f"📊 *Информация о {symbol} (в USDT)*\n"
-            f"• 💵 Цена: *${price}*\n"
-            f"• 💰 Капитализация: *${cap}B*\n"
-            f"• 📈 Изменение за 24ч: *{change}%*"
+            f"• 💵 Цена: *${price:.5f}*\n"
+            f"• 💰 Капитализация: *${cap:.5f}B*\n"
+            f"• 📈 Изменение за 24ч: *{change:.2f}%*"
             + fear_greed
         )
 
