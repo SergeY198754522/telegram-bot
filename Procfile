@@ -1,1 +1,1 @@
-worker: python3 bot.py
+worker: BOT_TOKEN=7974655972:AAFLmCVwL7amk7B8uQW3UmGP7616GKR8HHY python3 bot.py
