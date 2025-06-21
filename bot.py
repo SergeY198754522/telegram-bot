@@ -1,12 +1,8 @@
 import telebot
 import os
-import sys
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-
-if not BOT_TOKEN:
-    print("❌ BOT_TOKEN не задан!")
-    sys.exit(1)  # аварийный выход, если токена нет
+# Временно передаём токен напрямую
+BOT_TOKEN = "7974655972:AAFLmCVwL7amk7B8uQW3UmGP7616GKR8HHY"
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
