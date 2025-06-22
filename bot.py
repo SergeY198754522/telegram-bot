@@ -135,4 +135,12 @@ def send_welcome(message):
     bot.send_message(message.chat.id, "👋 Напиши название или сокращение криптомонеты (например: эфириум, btc, sol)")
     bot.send_message(message.chat.id, "📍 Доступные команды:\n/topgainers — лидеры роста\n/toplosers — лидеры падения\n\nТакже напиши название монеты — получишь информацию.")
 
+if __name__ == '__main__':
+    print("🤖 Бот запущен.")
+    try:
+        bot.polling(none_stop=True, interval=0)
+    except Exception as e:
+        print(f"❌ Ошибка при запуске polling: {e}")
+
+
 bot.polling()
