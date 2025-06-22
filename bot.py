@@ -47,16 +47,19 @@ def send_welcome(message):
 def handle_text(message):
     text = message.text.strip().lower()
 
-    for key in coin_map:
-        if key in text:
-            symbol = coin_map[key]
-            markup = types.InlineKeyboardMarkup()
-            btn = types.InlineKeyboardButton(f"info{symbol}", callback_data=f"info_{symbol}")
-            markup.add(btn)
-            bot.send_message(message.chat.id, f"Вы выбрали {symbol}", reply_markup=markup)
-            return
+    # Игнорируем команды, начинающиеся с /
+    if text.startswith('/'):
+        return
 
-    bot.send_message(message.chat.id, "❌ Монета не найдена. Попробуй написать её точнее или в виде сокращения (например: BTC, ETH, DOGE)")
+    symbol = find_symbol(text)  # твоя функция поиска монеты
+    if symbol:
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        btn = types.KeyboardButton(f"info{symbol.upper()}")
+        markup.add(btn)
+        bot.send_message(message.chat.id, f"Вы выбрали {symbol.upper()}.", reply_markup=markup)
+    else:
+        bot.send_message(message.chat.id, "❌ Монета не найдена. Попробуй точнее (например: Эфириум, Биткоин, Солана)")
+
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith("info_"))
 def handle_info(call):
