@@ -24,6 +24,9 @@ def load_coin_map():
     return symbol_map
 
 coin_map = load_coin_map()
+def find_symbol(text):
+    return coin_map.get(text.lower())
+
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
