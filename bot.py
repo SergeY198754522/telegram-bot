@@ -141,6 +141,3 @@ if __name__ == '__main__':
         bot.polling(none_stop=True, interval=0)
     except Exception as e:
         print(f"❌ Ошибка при запуске polling: {e}")
-
-
-bot.polling()
