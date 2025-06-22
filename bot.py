@@ -27,13 +27,18 @@ coin_map = load_coin_map()
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.send_message(message.chat.id, "👋 Напиши название или сокращение криптомонеты (например: эфириум, btc, sol)")
-@bot.message_handler(commands=['topgainers'])
-def top_gainers(message):
-    bot.send_message(message.chat.id, "📊 *Топ-10 монет по росту за 24ч:*\n\n" + get_top_movers("gainers"), parse_mode="Markdown")
-@bot.message_handler(commands=['toplosers'])
-def top_losers(message):
-    bot.send_message(message.chat.id, "📉 *Топ-10 монет по падению за 24ч:*\n\n" + get_top_movers("losers"), parse_mode="Markdown")
+    # Создаём обычную Reply клавиатуру
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn1 = types.KeyboardButton("/topgainers")
+    btn2 = types.KeyboardButton("/toplosers")
+    btn3 = types.KeyboardButton("BTC")
+    markup.add(btn1, btn2, btn3)
+
+    bot.send_message(
+        message.chat.id,
+        "👋 Напиши название или сокращение криптомонеты (например: эфириум, btc, sol)\n\n📍 Или выбери одну из команд ниже:",
+        reply_markup=markup
+    )
 
 
 
